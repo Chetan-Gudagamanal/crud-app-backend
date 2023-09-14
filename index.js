@@ -7,6 +7,7 @@ import { handleRegister } from "./controllers/handleRegister.js"
 import { handleLogin } from "./controllers/handleLogin.js"
 import { handleAddProduct } from "./controllers/handleAddProduct.js"
 import { handleDeleteProduct } from "./controllers/handleDeleteProduct.js"
+import { handleGetAllProduct } from "./controllers/handleGetAllProduct.js"
 
 const app=express()
 app.use(cors())
@@ -26,6 +27,12 @@ app.post("/register",(req,res)=>{handleRegister(req,res,db)})
 
 //handle login details sent from user
 app.post("/login", (req,res)=>{handleLogin(req,res)})
+
+//handle authorization, to secure some end points
+app.get("/check_authorized", auth,(req,res)=>{res.status(200).json("Success")})
+
+//get all products
+app.get("/all_products",auth,(req,res)=>{handleGetAllProduct(req,res)})
 
 //add new product
 app.post("/add_product",auth,(req,res)=>{handleAddProduct(req,res)})
